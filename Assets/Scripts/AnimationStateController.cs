@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 public class AnimationStateController : MonoBehaviour
 {
     public float moveSpeed = 3f;
-    public float gravity   = -9.81f;
+    public float gravity = -9.81f;
+    public float rotationSpeed = 15f;   // wie schnell er sich zur Maus dreht
 
     private Animator animator;
     private CharacterController controller;
@@ -31,7 +32,7 @@ public class AnimationStateController : MonoBehaviour
 
     private void Update()
     {
-        // Input (WASD)
+        // 1) Movement + Animation
         Vector2 move2D = input.Movement.Move.ReadValue<Vector2>();
         Vector3 move   = new Vector3(move2D.x, 0f, move2D.y);
 
@@ -41,18 +42,44 @@ public class AnimationStateController : MonoBehaviour
         if (move.sqrMagnitude > 1f)
             move.Normalize();
 
-        // Gravity
         if (controller.isGrounded && verticalVelocity < 0f)
         {
-            verticalVelocity = -1f; // leicht nach unten, damit er am Boden "klebt"
+            verticalVelocity = -1f;
         }
 
         verticalVelocity += gravity * Time.deltaTime;
 
-        // horizontale + vertikale Bewegung kombinieren
         Vector3 velocity = move * moveSpeed;
         velocity.y = verticalVelocity;
 
         controller.Move(velocity * Time.deltaTime);
+
+        // 2) Blickrichtung zur Maus
+        RotateTowardsMouse();
     }
+
+    private void RotateTowardsMouse()
+    {
+        if (Camera.main == null || Mouse.current == null)
+            return;
+
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
+        {
+            Vector3 target = hit.point;
+            target.y = transform.position.y;
+
+            Vector3 dir = target - transform.position;
+            dir.y = 0f;
+
+            if (dir.sqrMagnitude < 0.001f)
+                return;
+
+            Quaternion targetRot = Quaternion.LookRotation(dir);
+            transform.rotation = targetRot;   // direkt, kein Slerp
+        }
+    }
+
 }
