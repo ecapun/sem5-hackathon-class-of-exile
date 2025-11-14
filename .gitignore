@@ -97,3 +97,11 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# große Zombie-FBX nicht in git
+Assets/Animation/Ch10_nonPBR@Zombie Attack.fbx
+Assets/Animation/Ch10_nonPBR@Zombie Dying.fbx
+Assets/Animation/Ch10_nonPBR@Zombie Idle.fbx
+Assets/Animation/Ch10_nonPBR@Zombie Running.fbx
+Assets/Model/ZombieModel.fbx
+
