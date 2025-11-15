@@ -131,14 +131,20 @@ public class AnimationStateController : MonoBehaviour
         if (slot.skillPrefab == null) return;
         if (Camera.main == null || Mouse.current == null) return;
 
-        // 1) Mana abziehen über Tiny HealthSystem
+        // 1) GENUG MANA?
         if (HealthSystem.Instance != null && slot.manaCost > 0)
         {
-            Debug.Log($"[Skill] {slot.key} cast – trying to use {slot.manaCost} mana. Current: {HealthSystem.Instance.manaPoint}");
+            // zu wenig Mana → gar nicht casten
+            if (HealthSystem.Instance.manaPoint < slot.manaCost)
+            {
+                Debug.Log($"[Skill] Not enough mana for {slot.key}. Need {slot.manaCost}, have {HealthSystem.Instance.manaPoint}");
+                return;
+            }
 
+            // genug Mana → abziehen
+            Debug.Log($"[Skill] {slot.key} cast – use {slot.manaCost} mana. Before: {HealthSystem.Instance.manaPoint}");
             HealthSystem.Instance.UseMana(slot.manaCost);
-
-            Debug.Log($"[Skill] New mana after cast: {HealthSystem.Instance.manaPoint}");
+            Debug.Log($"[Skill] After cast mana: {HealthSystem.Instance.manaPoint}");
         }
         else
         {
@@ -157,6 +163,7 @@ public class AnimationStateController : MonoBehaviour
             Instantiate(slot.skillPrefab, spawnPos, Quaternion.identity);
         }
     }
+
 
     private void RotateTowardsMouse()
     {
