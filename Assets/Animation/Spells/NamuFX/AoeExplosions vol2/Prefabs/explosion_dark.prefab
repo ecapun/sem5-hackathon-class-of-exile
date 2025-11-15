@@ -9808,6 +9808,7 @@ GameObject:
   - component: {fileID: 7221122369306011507}
   - component: {fileID: 7221122369306011516}
   - component: {fileID: 7221122369306011517}
+  - component: {fileID: -8941110668255153824}
   m_Layer: 0
   m_Name: explosion_dark
   m_TagString: Untagged
@@ -14717,6 +14718,26 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-8941110668255153824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7221122369306011518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4939b09de2b5561488e70b6b28c5ebaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExplosionDamage
+  doImpactDamage: 1
+  impactDelay: 0.8
+  impactRadius: 5
+  impactDamage: 30
+  doExplosionDamage: 1
+  explosionDelay: 1.7
+  explosionRadius: 10
+  explosionDamage: 100
 --- !u!1 &7221122369639047823
 GameObject:
   m_ObjectHideFlags: 0
